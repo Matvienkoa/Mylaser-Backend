@@ -1,38 +1,47 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const http = require('http');
+const app = require('./app');
 
-var cors = require('cors')
-const path = require('path');
-var axios = require('axios');
-const multer = require('./middleware/multer-config');
-var fs = require('fs');
-const FormData = require('form-data');
-// const upload = multer({ dest: 'uploads/'});
-const vectorExpress = require("./node_modules/@smidyo/vectorexpress-nodejs/index");
+const normalizePort = val => {
+  const port = parseInt(val, 10);
 
-app.use(cors())
+  if (isNaN(port)) {
+    return val;
+  }
+  if (port >= 0) {
+    return port;
+  }
+  return false;
+};
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+const errorHandler = error => {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  const address = server.address();
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges.');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use.');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+};
 
-app.post('/convert', multer.single('dxf'),(req, res) => {
-  const file = fs.readFileSync(__dirname + '/uploads/' + req.file.filename, {encoding: 'utf-8'});
-  vectorExpress.convert("dxf", "svg", {
-    file,
-    save: true,
-    path: __dirname + '/output/test2.svg'
-  })
-  .then(() => {
-    const svg = fs.readFileSync(__dirname + '/output/test2.svg', {encoding: 'utf-8'});
-    res.send(svg)
-  })
-})
+const server = http.createServer(app);
 
-app.get('/read', (req, res) => {
-  const svg = fs.readFileSync(__dirname + '/output/test2.svg', {encoding: 'utf-8'});
-  res.send(svg)
-})
+server.on('error', errorHandler);
+server.on('listening', () => {
+  const address = server.address();
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+  console.log('Listening on ' + bind);
+});
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+server.listen(port);
