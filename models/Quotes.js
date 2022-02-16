@@ -3,16 +3,37 @@ const db = require('../config/config');
 
 const Quotes = db.define('quotes', {
     length: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.FLOAT
     },
     coef: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.FLOAT
     },
     surface: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.FLOAT
     },
     dxf: {
         type: Sequelize.STRING
+    },
+    svg: {
+        type: Sequelize.STRING
+    },
+    price: {
+        type: Sequelize.FLOAT
+    },
+    quantity: {
+        type: Sequelize.INTEGER
+    },
+    steel: {
+        type: Sequelize.STRING
+    },
+    thickness: {
+        type: Sequelize.STRING
+    },
+    width: {
+        type: Sequelize.FLOAT
+    },
+    height: {
+        type: Sequelize.FLOAT
     }
 });
 

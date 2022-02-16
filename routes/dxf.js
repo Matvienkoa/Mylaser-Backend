@@ -5,5 +5,7 @@ const multer = require('../middleware/multer-config');
 
 router.post('/', multer.single('dxf'), dxfCtrl.convertDxf);
 router.post('/quote', dxfCtrl.createQuote);
-router.post('/price', dxfCtrl.getPrice);
+router.put('/quote/:id', dxfCtrl.editQuote);
+router.get('/quote/:id', dxfCtrl.getCurrentQuote);
+router.delete('/quote/:id', dxfCtrl.deleteQuote);
 module.exports = router;
