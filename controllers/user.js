@@ -52,7 +52,7 @@ exports.deleteUser = (req, res) => {
 exports.getAllUsers = (req, res) => {
     models.User.findAll({
         order: [['createdAt', 'DESC']],
-        include: [{model: models.BillingAdresses}, {model: models.DeliveryAdresses}]
+        include: [{model: models.BillingAdresses}, {model: models.DeliveryAdresses}, {model: models.Orders}]
     })
         .then((users) => { res.send(users)})
         .catch(error => res.status(400).json({ error }));
@@ -60,7 +60,7 @@ exports.getAllUsers = (req, res) => {
 
 // Get Profile
 exports.getOneUser = (req, res) => {
-    models.User.findOne({ where: { id: req.params.id }, include: [{model: models.BillingAdresses}, {model: models.DeliveryAdresses}] })
+    models.User.findOne({ where: { id: req.params.id }, include: [{model: models.BillingAdresses}, {model: models.DeliveryAdresses}, {model: models.Orders}] })
     .then(user => res.status(200).json(user))
     .catch(error => res.status(404).json({ error }));
 };
