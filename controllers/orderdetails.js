@@ -4,7 +4,8 @@ const models = require('../models/index');
 exports.createOrderdetails = (req, res) => {
     models.Orderdetails.create({
         orderId: req.body.orderId,
-        quote: req.body.quote
+        quote: req.body.quote,
+        price: req.body.price
     })
     .then((orderdetails) => res.status(201).json(orderdetails))
     .catch(error => res.status(400).json({ error }))

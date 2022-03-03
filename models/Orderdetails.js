@@ -7,7 +7,10 @@ const Orderdetails = db.define('orderdetails', {
     },
     quote: {
         type: Sequelize.INTEGER
-    }
+    },
+    price: {
+        type: Sequelize.FLOAT
+    },
 });
 
 module.exports = Orderdetails;

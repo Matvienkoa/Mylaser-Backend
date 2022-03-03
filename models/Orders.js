@@ -8,6 +8,9 @@ const Orders = db.define('orders', {
     shipping: {
         type: Sequelize.STRING
     },
+    shippingPrice: {
+        type: Sequelize.FLOAT
+    },
     number: {
         type: Sequelize.STRING
     },
@@ -58,6 +61,12 @@ const Orders = db.define('orders', {
     },
     baCountry: {
         type: Sequelize.STRING
+    },
+    status: {
+        type: Sequelize.STRING
+    },
+    price: {
+        type: Sequelize.FLOAT
     }
 });
 
