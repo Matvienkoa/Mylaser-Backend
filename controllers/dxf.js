@@ -1,20 +1,6 @@
 const models = require('../models/index');
 const fs = require('fs');
-const vectorExpress = require("../node_modules/@smidyo/vectorexpress-nodejs/index");
 const axios = require('axios');
-
-// exports.convertDxf = (req,res) => {
-//     const file = fs.readFileSync('uploads/' + req.file.filename, {encoding: 'utf-8'});
-//     vectorExpress.convert("dxf", "svg", {
-//     file,
-//     save: true,
-//     path: 'output/' + req.file.filename + '.svg'
-//   })
-//   .then(() => {
-//     const svg = fs.readFileSync('output/' + req.file.filename + '.svg', {encoding: 'utf-8'});
-//     res.send(svg)
-//   })
-// }
 
 exports.convertDxf = async(req,res) => {
     const file = fs.readFileSync('uploads/' + req.file.filename, {encoding: 'utf-8'});
@@ -81,21 +67,39 @@ exports.getCurrentQuote = (req, res) => {
 exports.deleteQuote = (req,res) => {
     models.Quotes.findOne({ where: { id: req.params.id }})
     .then(quote => {
-        let filename = quote.dxf.split('/uploads/')[1];
-        console.log(filename);
-        if (filename !== undefined) {
-            fs.unlink(`uploads/${filename}`,
-                function (err) {
-                    if (err) {
-                        console.log('error');
-                    } else {
-                        console.log('fichier supprimé');
-                    }
-                },
-            )
+        if(quote) {
+            let filename = quote.dxf.split('/uploads/')[1];
+            console.log(filename);
+            if (filename !== undefined) {
+                fs.unlink(`uploads/${filename}`,
+                    function (err) {
+                        if (err) {
+                            console.log('error');
+                        } else {
+                            console.log('fichier supprimé');
+                        }
+                    },
+                )
+            }
         }
     })
     models.Quotes.destroy({ where: { id: req.params.id }})
     .then(() => res.status(200).json({ message: 'Devis supprimé' }))
     .catch(error => res.status(400).json({ error }));
 }
+
+exports.deleteFile = (req, res) => {
+    const filename = req.body.filename.split('/uploads/')[1];
+    if (filename !== undefined) {
+        fs.unlink(`uploads/${filename}`,
+            function (err) {
+                if (err) {
+                    console.log('error');
+                } else {
+                    console.log('fichier supprimé');
+                };
+            }
+        )
+        res.status(200).json({ message: 'Dxf supprimé' });
+    };
+};

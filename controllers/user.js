@@ -6,8 +6,8 @@ const emailValidator = require('email-validator');
 // Edit Profile
 exports.modifyUser = (req, res) => {
     // Empty Inputs
-    if (req.body.email === "") {
-        return res.status(400).json({ message: "Merci de renseigner un email"});
+    if (req.body.email === "" || req.body.firstName === "" || req.body.lastName === "") {
+        return res.status(400).json({ message: "Merci de renseigner tous les Champs Obligatoires"});
     }
     if (!emailValidator.validate(req.body.email)) {
         return res.status(400).json({ message: "Format d'email invalide" });

@@ -8,4 +8,5 @@ router.post('/quote', dxfCtrl.createQuote);
 router.put('/quote/:id', dxfCtrl.editQuote);
 router.get('/quote/:id', dxfCtrl.getCurrentQuote);
 router.delete('/quote/:id', dxfCtrl.deleteQuote);
+router.delete('/file', dxfCtrl.deleteFile);
 module.exports = router;

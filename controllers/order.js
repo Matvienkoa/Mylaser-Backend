@@ -58,10 +58,10 @@ exports.addPriceToOrder = async (req, res) => {
 // Edit Order
 exports.editOrder = async (req, res) => {
     const order = await models.Orders.findOne({
-        where: { id: req.params.id }
+        where: { number: req.params.number }
     })
     await order.update({
-        number: req.body.number
+        status: req.body.status
     })
     .then(() => res.status(200).json({ message: 'Commande modifiée' }))
     .catch(error => res.status(400).json({ error }));   

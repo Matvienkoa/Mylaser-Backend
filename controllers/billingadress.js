@@ -6,6 +6,9 @@ exports.createBillingadress = (req, res) => {
     if (req.body.firstName === "" || req.body.lastName === "" || req.body.line1 === "" || req.body.city === "" || req.body.postalCode === "" || req.body.country === "") {
         return res.status(400).json({ message: "Merci de renseigner tous les Champs Obligatoires"});
     }
+    if (!Number.isInteger(Number.parseInt(req.body.postalCode))) {
+        return res.status(400).json({ message: "Merci de renseigner un bon format de code postal (chiffres)"});
+    }
     models.BillingAdresses.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -26,6 +29,9 @@ exports.editBillingadress = async (req, res) => {
     // Empty Inputs
     if (req.body.firstName === "" || req.body.lastName === "" || req.body.line1 === "" || req.body.city === "" || req.body.postalCode === "" || req.body.country === "") {
         return res.status(400).json({ message: "Merci de renseigner tous les Champs Obligatoires"});
+    }
+    if (!Number.isInteger(Number.parseInt(req.body.postalCode))) {
+        return res.status(400).json({ message: "Merci de renseigner un bon format de code postal (chiffres)"});
     }
     const Billingadress = await models.BillingAdresses.findOne({
         where: { id: req.params.id }
