@@ -11,7 +11,9 @@ db.authenticate()
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5501"
+}));
 
 app.use(express.json());
 
@@ -24,5 +26,7 @@ app.use('/api/mylaser/deliveryadress', require('./routes/deliveryadresses'));
 app.use('/api/mylaser/user', require('./routes/users'));
 app.use('/api/mylaser/order', require('./routes/orders'));
 app.use('/api/mylaser/orderdetails', require('./routes/orderdetails'));
+app.use('/api/mylaser/mail', require('./routes/mails'));
+app.use('/api/mylaser/payment', require('./routes/payments'));
 
 module.exports = app;

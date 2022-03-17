@@ -66,7 +66,10 @@ const Orders = db.define('orders', {
         type: Sequelize.STRING
     },
     price: {
-        type: Sequelize.FLOAT
+        type: Sequelize.INTEGER
+    },
+    payment: {
+        type: Sequelize.STRING
     }
 });
 

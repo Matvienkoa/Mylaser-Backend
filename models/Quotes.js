@@ -18,7 +18,7 @@ const Quotes = db.define('quotes', {
         type: Sequelize.STRING
     },
     price: {
-        type: Sequelize.FLOAT
+        type: Sequelize.INTEGER
     },
     quantity: {
         type: Sequelize.INTEGER

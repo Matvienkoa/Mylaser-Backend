@@ -51,7 +51,19 @@ exports.addPriceToOrder = async (req, res) => {
     await order.update({
         price: req.body.price
     })
-    .then(() => res.status(200).json({ message: 'Commande modifiée' }))
+    .then(() => res.status(201).json(order))
+    .catch(error => res.status(400).json({ error }));   
+}
+
+// Edit Payment
+exports.editPayment = async (req, res) => {
+    const order = await models.Orders.findOne({
+        where: { number: req.params.number }
+    })
+    await order.update({
+        payment: req.body.payment
+    })
+    .then(() => res.status(201).json(order))
     .catch(error => res.status(400).json({ error }));   
 }
 
@@ -91,7 +103,7 @@ exports.getOneOrderByNumber = (req, res) => {
 // Get All Orders
 exports.getAllOrders = (req, res) => {
     models.Orders.findAll({
-        order: [['createdAt', 'ASC']],
+        order: [['createdAt', 'DESC']],
         include: [{model: models.Orderdetails}]
     })
         .then((orders) => {res.send(orders)})
