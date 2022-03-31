@@ -7,7 +7,7 @@ const emailValidator = require('email-validator');
 // Create Account
 exports.signup = (req, res) => {
     // Empty Inputs
-    if (req.body.email === "" || req.body.password === "" || req.body.firstName === "" || req.body.lastName === "") {
+    if (req.body.email === "" || req.body.password === "" || req.body.password2 === "" || req.body.firstName === "" || req.body.lastName === "") {
         return res.status(400).json({ message: "Merci de renseigner tous les Champs Obligatoires"});
     }
     // Bad Schema Mail
@@ -16,7 +16,11 @@ exports.signup = (req, res) => {
     }
     // Bad Schema Password
     if (!passwordValidator.validate(req.body.password)) {
-        return res.status(400).json({ message: "Mot de Passe invalide : Veuillez utiliser entre 8 et 12 caractères avec au minimum 1 Majuscule, 1 Minuscule et 1 Chiffre." });
+        return res.status(400).json({ message: "Mot de Passe invalide : Veuillez utiliser entre 8 et 30 caractères avec au minimum 1 Majuscule, 1 Minuscule et 1 Chiffre" });
+    }
+    // Different Password
+    if (req.body.password !== req.body.password2) {
+        return res.status(400).json({ message: "Les mots de passe ne sont pas identiques" });
     }
     models.User.findOne({
         where: { email: req.body.email}

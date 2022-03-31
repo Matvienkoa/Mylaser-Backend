@@ -6,6 +6,7 @@ exports.createBillingadress = (req, res) => {
     if (req.body.firstName === "" || req.body.lastName === "" || req.body.line1 === "" || req.body.city === "" || req.body.postalCode === "" || req.body.country === "") {
         return res.status(400).json({ message: "Merci de renseigner tous les Champs Obligatoires"});
     }
+    // PC is not number
     if (!Number.isInteger(Number.parseInt(req.body.postalCode))) {
         return res.status(400).json({ message: "Merci de renseigner un bon format de code postal (chiffres)"});
     }
@@ -30,6 +31,7 @@ exports.editBillingadress = async (req, res) => {
     if (req.body.firstName === "" || req.body.lastName === "" || req.body.line1 === "" || req.body.city === "" || req.body.postalCode === "" || req.body.country === "") {
         return res.status(400).json({ message: "Merci de renseigner tous les Champs Obligatoires"});
     }
+    // PC is not number
     if (!Number.isInteger(Number.parseInt(req.body.postalCode))) {
         return res.status(400).json({ message: "Merci de renseigner un bon format de code postal (chiffres)"});
     }

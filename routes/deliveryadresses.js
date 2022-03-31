@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { checkJWT, checkUser, checkAdmin } = require('../middleware/auth');
-const deliveryAdressCtrl = require('../controllers/deliveryadress')
+const deliveryAdressCtrl = require('../controllers/deliveryadress');
 
 router.get('/', checkJWT, checkUser, checkAdmin, deliveryAdressCtrl.getAllDeliveryadress);
 router.get('/:id', checkJWT, checkUser, deliveryAdressCtrl.getOneDeliveryadress);

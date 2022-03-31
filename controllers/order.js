@@ -1,4 +1,3 @@
-// const uuid = require('uuid');
 const models = require('../models/index');
 
 // Create Order

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { checkJWT, checkUser, checkAdmin } = require('../middleware/auth');
-const billingAdressCtrl = require('../controllers/billingadress')
+const billingAdressCtrl = require('../controllers/billingadress');
 
 router.get('/', checkJWT, checkUser, checkAdmin, billingAdressCtrl.getAllBillingadress);
 router.get('/:id', checkJWT, checkUser, billingAdressCtrl.getOneBillingadress);

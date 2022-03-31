@@ -1,6 +1,10 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+//Sécurity
+const helmet = require('helmet');
+const hpp = require("hpp");
+const rateLimit = require("./middleware/limiter");
 
 //Database
 const db = require('./config/config');
@@ -14,9 +18,10 @@ const app = express();
 app.use(cors({
     origin: "http://localhost:5501"
 }));
-
 app.use(express.json());
-
+app.use(helmet());
+app.use(hpp());
+app.use("/api/mylaser/auth", rateLimit.authLimiter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api/mylaser/auth', require('./routes/auth'));

@@ -2,6 +2,7 @@ const models = require('../models/index');
 const fs = require('fs');
 const axios = require('axios');
 
+// API Vector express
 exports.convertDxf = async(req,res) => {
     const file = fs.readFileSync('uploads/' + req.file.filename, {encoding: 'utf-8'});
     let image= await axios.post('https://vector.express/api/v2/public/convert/dxf/cad2svg/svg?cad2svg-unit=mm', file)
@@ -9,6 +10,7 @@ exports.convertDxf = async(req,res) => {
     res.send([text.data, `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`]);
 }
 
+// New Quote in DB
 exports.createQuote = (req, res) => {
     const length = req.body.length;
     const coef = req.body.coef;
@@ -39,8 +41,8 @@ exports.createQuote = (req, res) => {
     .catch(error => res.status(400).json({ error }));
 }
 
+// Edit Quote
 exports.editQuote = async (req, res) => {
-    
     const quote = await models.Quotes.findOne({
         where: { id: req.params.id}
     })
@@ -59,17 +61,18 @@ exports.editQuote = async (req, res) => {
     .catch(error => res.status(404).json({ error }));
 }
 
+// Current Quote
 exports.getCurrentQuote = (req, res) => {
     models.Quotes.findOne({ where: { id: req.params.id }})
     .then((currentQuote) => res.status(200).json(currentQuote))
 }
 
+// Delete Quote
 exports.deleteQuote = (req,res) => {
     models.Quotes.findOne({ where: { id: req.params.id }})
     .then(quote => {
         if(quote) {
             let filename = quote.dxf.split('/uploads/')[1];
-            console.log(filename);
             if (filename !== undefined) {
                 fs.unlink(`uploads/${filename}`,
                     function (err) {
@@ -88,6 +91,7 @@ exports.deleteQuote = (req,res) => {
     .catch(error => res.status(400).json({ error }));
 }
 
+// Delete file in server
 exports.deleteFile = (req, res) => {
     const filename = req.body.filename.split('/uploads/')[1];
     if (filename !== undefined) {

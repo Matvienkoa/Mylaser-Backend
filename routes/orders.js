@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { checkJWT, checkUser, checkAdmin } = require('../middleware/auth');
-const orderCtrl = require('../controllers/order')
+const orderCtrl = require('../controllers/order');
 
 router.get('/', checkJWT, checkUser, checkAdmin, orderCtrl.getAllOrders);
 router.get('/:id', checkJWT, checkUser, orderCtrl.getOneOrder);
