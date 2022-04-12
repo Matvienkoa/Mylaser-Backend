@@ -13,7 +13,6 @@ exports.convertDxf = async(req,res) => {
 // New Quote in DB
 exports.createQuote = (req, res) => {
     const length = req.body.length;
-    const coef = req.body.coef;
     const surface = req.body.surface;
     const dxf = req.body.dxf;
     const svg = req.body.svg;
@@ -22,11 +21,20 @@ exports.createQuote = (req, res) => {
     const quantity = req.body.quantity;
     const width = req.body.width;
     const height = req.body.height;
-    const price = (surface*coef + (length/10*2))*quantity
+    const weight = calculWeight();
+    function calculWeight() {
+        return (surface/100)*(thickness/10)*req.body.density*quantity
+    }
+
+    const speed = req.body.speed;
+    const pricePerKilosQuote = (130*weight)/1000;
+    const speedTimeQuote = (60*length)/speed;
+    const priceSpeedTimeQuote = (6500*speedTimeQuote)/3600;
+    const timeInit = 542;
+    const price = (pricePerKilosQuote + priceSpeedTimeQuote + timeInit)*quantity;
 
     models.Quotes.create({
         length: length,
-        coef: coef,
         surface: surface,
         dxf: dxf,
         svg: svg,
@@ -35,7 +43,8 @@ exports.createQuote = (req, res) => {
         quantity: quantity,
         width: width,
         height: height,
-        price: price
+        price: price,
+        weight: weight
     })
     .then((quote) => res.status(201).json(quote))
     .catch(error => res.status(400).json({ error }));
@@ -46,16 +55,40 @@ exports.editQuote = async (req, res) => {
     const quote = await models.Quotes.findOne({
         where: { id: req.params.id}
     })
-    const coef = req.body.coef;
     const steel = req.body.steel;
     const thickness = req.body.thickness;
     const quantity = req.body.quantity;
+    const weight = calculWeight();
+    function calculWeight() {
+        return (quote.surface/100)*(thickness/10)*req.body.density*quantity
+    }
+
+    const speed = req.body.speed;
+    const pricePerKilosQuote = (130*weight)/1000;
+    const speedTimeQuote = (60*quote.length)/speed;
+    const priceSpeedTimeQuote = (6500*speedTimeQuote)/3600;
+    const timeInit = 542;
+    const price = (pricePerKilosQuote + priceSpeedTimeQuote + timeInit)*quantity;
+
     await quote.update({
-        coef: coef,
         steel: steel,
         thickness: thickness,
         quantity: quantity,
-        price: (quote.surface*coef + (quote.length/10*2))*quantity
+        price: price,
+        weight: weight
+    })
+    .then((quote) => res.status(200).json(quote))
+    .catch(error => res.status(404).json({ error }));
+}
+
+// Link Quote to Cart with FK
+exports.linkQuoteToCart = async (req, res) => {
+    const quote = await models.Quotes.findOne({
+        where: { id: req.params.id}
+    })
+    const cartId = req.body.cartId
+    await quote.update({
+        cartId: cartId
     })
     .then((quote) => res.status(200).json(quote))
     .catch(error => res.status(404).json({ error }));

@@ -5,9 +5,6 @@ const Quotes = db.define('quotes', {
     length: {
         type: Sequelize.FLOAT
     },
-    coef: {
-        type: Sequelize.FLOAT
-    },
     surface: {
         type: Sequelize.FLOAT
     },
@@ -33,6 +30,12 @@ const Quotes = db.define('quotes', {
         type: Sequelize.FLOAT
     },
     height: {
+        type: Sequelize.FLOAT
+    },
+    cartId: {
+        type: Sequelize.INTEGER
+    },
+    weight: {
         type: Sequelize.FLOAT
     }
 });
