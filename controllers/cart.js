@@ -13,7 +13,7 @@ exports.createCart = (req, res) => {
     .catch(error => res.status(400).json({ error }))
 }
 
-// Edit Cart
+// Edit Cart => Add Quote
 exports.editCart = async (req, res) => {
     const cart = await models.Carts.findOne({
         where: { id: req.params.id}
@@ -47,6 +47,36 @@ exports.editCart = async (req, res) => {
     .then((cart) => res.status(200).json(cart))
     .catch(error => res.status(404).json({ error }));
 }
+
+// Edit Cart => Remove Quote
+exports.removeQuoteFromCart = async (req, res) => {
+    const cart = await models.Carts.findOne({
+        where: { id: req.params.id}
+    })
+
+    const length = req.body.length;
+    const price = req.body.price;
+    const weight = req.body.weight;
+    const height = req.body.height;
+    const width = req.body.width;
+
+    await cart.update({
+        price: price ,
+        weight: weight,
+        height: height,
+        width: width,
+        length: length
+    })
+    .then((cart) => res.status(200).json(cart))
+    .catch(error => res.status(404).json({ error }));
+}
+
+// Delete Cart
+exports.deleteCart = (req, res) => {
+    models.Carts.destroy({ where: { id: req.params.id } })
+    .then(() => res.status(200).json({ message: 'Panier supprimé' }))
+    .catch(error => res.status(400).json({ error }));
+};
 
 // Get One Cart
 exports.getOneCart = (req, res) => {

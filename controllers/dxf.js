@@ -12,26 +12,25 @@ exports.convertDxf = async(req,res) => {
 
 // New Quote in DB
 exports.createQuote = (req, res) => {
-    const length = req.body.length;
+    const width = req.body.width;
+    const height = req.body.height;
     const surface = req.body.surface;
+    const length = req.body.length;
     const dxf = req.body.dxf;
     const svg = req.body.svg;
     const steel = req.body.steel;
     const thickness = req.body.thickness;
     const quantity = req.body.quantity;
-    const width = req.body.width;
-    const height = req.body.height;
     const weight = calculWeight();
     function calculWeight() {
-        return (surface/100)*(thickness/10)*req.body.density*quantity
+        return ((surface/100)*(thickness/10)*req.body.density)*quantity
     }
-
     const speed = req.body.speed;
-    const pricePerKilosQuote = (130*weight)/1000;
-    const speedTimeQuote = (60*length)/speed;
+    const pricePerKilosQuote = ((130*weight/quantity)/1000)*quantity;
+    const speedTimeQuote = ((60*length)/speed)*quantity;
     const priceSpeedTimeQuote = (6500*speedTimeQuote)/3600;
-    const timeInit = 542;
-    const price = (pricePerKilosQuote + priceSpeedTimeQuote + timeInit)*quantity;
+    const timeInit = 542*quantity;
+    const price = Math.ceil(pricePerKilosQuote + priceSpeedTimeQuote + timeInit);
 
     models.Quotes.create({
         length: length,
@@ -60,16 +59,15 @@ exports.editQuote = async (req, res) => {
     const quantity = req.body.quantity;
     const weight = calculWeight();
     function calculWeight() {
-        return (quote.surface/100)*(thickness/10)*req.body.density*quantity
+        return ((quote.surface/100)*(thickness/10)*req.body.density)*quantity
     }
-
     const speed = req.body.speed;
-    const pricePerKilosQuote = (130*weight)/1000;
-    const speedTimeQuote = (60*quote.length)/speed;
+    const pricePerKilosQuote = ((130*weight/quantity)/1000)*quantity;
+    const speedTimeQuote = ((60*quote.length)/speed)*quantity;
     const priceSpeedTimeQuote = (6500*speedTimeQuote)/3600;
-    const timeInit = 542;
-    const price = (pricePerKilosQuote + priceSpeedTimeQuote + timeInit)*quantity;
-
+    const timeInit = 542*quantity;
+    const price = Math.ceil(pricePerKilosQuote + priceSpeedTimeQuote + timeInit);
+    
     await quote.update({
         steel: steel,
         thickness: thickness,

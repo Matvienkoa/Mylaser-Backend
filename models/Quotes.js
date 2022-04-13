@@ -3,10 +3,10 @@ const db = require('../config/config');
 
 const Quotes = db.define('quotes', {
     length: {
-        type: Sequelize.FLOAT
+        type: Sequelize.INTEGER
     },
     surface: {
-        type: Sequelize.FLOAT
+        type: Sequelize.INTEGER
     },
     dxf: {
         type: Sequelize.STRING
@@ -24,19 +24,19 @@ const Quotes = db.define('quotes', {
         type: Sequelize.STRING
     },
     thickness: {
-        type: Sequelize.STRING
+        type: Sequelize.FLOAT
     },
     width: {
-        type: Sequelize.FLOAT
+        type: Sequelize.INTEGER
     },
     height: {
-        type: Sequelize.FLOAT
+        type: Sequelize.INTEGER
     },
     cartId: {
         type: Sequelize.INTEGER
     },
     weight: {
-        type: Sequelize.FLOAT
+        type: Sequelize.INTEGER
     }
 });
 
