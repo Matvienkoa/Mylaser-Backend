@@ -5,11 +5,17 @@ const Orders = db.define('orders', {
     userId: {
         type: Sequelize.INTEGER
     },
+    shippingCode: {
+        type: Sequelize.STRING
+    },
     shipping: {
         type: Sequelize.STRING
     },
     shippingPrice: {
-        type: Sequelize.FLOAT
+        type: Sequelize.INTEGER
+    },
+    shippingPriceTTC: {
+        type: Sequelize.INTEGER
     },
     number: {
         type: Sequelize.STRING
@@ -68,7 +74,25 @@ const Orders = db.define('orders', {
     price: {
         type: Sequelize.INTEGER
     },
+    priceTTC: {
+        type: Sequelize.INTEGER
+    },
     payment: {
+        type: Sequelize.STRING
+    },
+    length: {
+        type: Sequelize.INTEGER
+    },
+    width: {
+        type: Sequelize.INTEGER
+    },
+    height: {
+        type: Sequelize.FLOAT
+    },
+    weight: {
+        type: Sequelize.INTEGER
+    },
+    email: {
         type: Sequelize.STRING
     }
 });

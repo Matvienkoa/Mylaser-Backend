@@ -3,24 +3,10 @@ const models = require('../models/index');
 // Create Order
 exports.createOrder = (req, res) => {
     const number = 'ML' + Date.now()
-    function shippingPrice(shipping) {
-        switch(shipping) {
-            case 'chronopost' :
-                return 6.90
-            break;
-            case 'colissimo' :
-                return 4.90
-            break;
-            case 'ups' :
-                return 8.90
-            break;
-        }
-    }
     models.Orders.create({
         userId: req.body.userId,
+        email: req.body.email,
         number: number,
-        shipping: req.body.shipping,
-        shippingPrice: shippingPrice(req.body.shipping),
         daFN: req.body.daFN,
         daLN: req.body.daLN,
         daPhone: req.body.daPhone,
@@ -48,7 +34,16 @@ exports.addPriceToOrder = async (req, res) => {
         where: { id: req.params.id }
     })
     await order.update({
-        price: req.body.price
+        price: req.body.price + req.body.operatorPriceHT,
+        priceTTC: Math.ceil((req.body.price*1.2) + req.body.operatorPriceTTC),
+        shipping: req.body.operatorService,
+        shippingCode: req.body.operatorCode,
+        shippingPrice: req.body.operatorPriceHT,
+        shippingPriceTTC: req.body.operatorPriceTTC,
+        length: req.body.length,
+        width: req.body.width,
+        height: req.body.height,
+        weight: req.body.weight
     })
     .then(() => res.status(201).json(order))
     .catch(error => res.status(400).json({ error }));   

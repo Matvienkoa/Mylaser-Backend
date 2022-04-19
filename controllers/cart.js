@@ -71,6 +71,27 @@ exports.removeQuoteFromCart = async (req, res) => {
     .catch(error => res.status(404).json({ error }));
 }
 
+// Edit Cart => Add Shipping Infos
+exports.addShippingInfos = async (req, res) => {
+    const cart = await models.Carts.findOne({
+        where: { id: req.params.id}
+    })
+
+    const operatorCode = req.body.operatorCode;
+    const operatorService = req.body.operatorService;
+    const operatorPriceHT = Math.ceil(parseFloat(req.body.operatorPriceHT)*100);
+    const operatorPriceTTC = Math.ceil(parseFloat(req.body.operatorPriceTTC)*100);
+
+    await cart.update({
+        operatorCode: operatorCode,
+        operatorService: operatorService,
+        operatorPriceHT: operatorPriceHT,
+        operatorPriceTTC: operatorPriceTTC
+    })
+    .then((cart) => res.status(200).json(cart))
+    .catch(error => res.status(404).json({ error }));
+}
+
 // Delete Cart
 exports.deleteCart = (req, res) => {
     models.Carts.destroy({ where: { id: req.params.id } })

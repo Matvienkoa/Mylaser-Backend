@@ -16,7 +16,19 @@ const Carts = db.define('carts', {
     },
     weight: {
         type: Sequelize.FLOAT
-    }
+    },
+    operatorCode: {
+        type: Sequelize.STRING
+    },
+    operatorService: {
+        type: Sequelize.STRING
+    },
+    operatorPriceHT: {
+        type: Sequelize.INTEGER
+    },
+    operatorPriceTTC: {
+        type: Sequelize.INTEGER
+    },
 });
 
 module.exports = Carts;
