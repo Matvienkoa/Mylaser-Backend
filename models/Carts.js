@@ -23,11 +23,20 @@ const Carts = db.define('carts', {
     operatorService: {
         type: Sequelize.STRING
     },
+    operatorLabel: {
+        type: Sequelize.STRING
+    },
     operatorPriceHT: {
         type: Sequelize.INTEGER
     },
     operatorPriceTTC: {
         type: Sequelize.INTEGER
+    },
+    relayCode: {
+        type: Sequelize.STRING
+    },
+    shippingType: {
+        type: Sequelize.STRING
     },
 });
 

@@ -8,6 +8,15 @@ const Orders = db.define('orders', {
     shippingCode: {
         type: Sequelize.STRING
     },
+    relayCode: {
+        type: Sequelize.STRING
+    },
+    shippingType: {
+        type: Sequelize.STRING
+    },
+    shippingLabel: {
+        type: Sequelize.STRING
+    },
     shipping: {
         type: Sequelize.STRING
     },

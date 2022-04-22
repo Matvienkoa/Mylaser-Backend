@@ -79,6 +79,8 @@ exports.addShippingInfos = async (req, res) => {
 
     const operatorCode = req.body.operatorCode;
     const operatorService = req.body.operatorService;
+    const operatorLabel = req.body.operatorLabel;
+    const shippingType = req.body.shippingType;
     const operatorPriceHT = Math.ceil(parseFloat(req.body.operatorPriceHT)*100);
     const operatorPriceTTC = Math.ceil(parseFloat(req.body.operatorPriceTTC)*100);
 
@@ -86,7 +88,24 @@ exports.addShippingInfos = async (req, res) => {
         operatorCode: operatorCode,
         operatorService: operatorService,
         operatorPriceHT: operatorPriceHT,
-        operatorPriceTTC: operatorPriceTTC
+        operatorPriceTTC: operatorPriceTTC,
+        operatorLabel: operatorLabel,
+        shippingType: shippingType
+    })
+    .then((cart) => res.status(200).json(cart))
+    .catch(error => res.status(404).json({ error }));
+}
+
+// Edit Cart => Add Relay Infos
+exports.addRelayInfos = async (req, res) => {
+    const cart = await models.Carts.findOne({
+        where: { id: req.params.id}
+    })
+
+    const relayCode = req.body.relayCode;
+
+    await cart.update({
+        relayCode: relayCode
     })
     .then((cart) => res.status(200).json(cart))
     .catch(error => res.status(404).json({ error }));
