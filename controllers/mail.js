@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const emailValidator = require('email-validator');
+var Mailgen = require('mailgen');
 
 exports.sendMail = async (req, res) => {
     // Empty Inputs
@@ -10,26 +11,66 @@ exports.sendMail = async (req, res) => {
     if (!emailValidator.validate(req.body.email)) {
         return res.status(400).json({ message: "Format d'email invalide" });
     }
-    const email = req.body.email;
-    const subject = req.body.subject;
-    const text = req.body.text;
-    const html = req.body.html;
 
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        auth: {
-            user: 'edwardo.feil@ethereal.email',
-            pass: 'gDBbJ6W5C2kFYdG9q7'
+    // Mailgen
+    const mailGenerator = new Mailgen({
+        theme: 'default',
+        product: {
+            name: 'MyLaser',
+            link: 'https://mylaser.fr/',
+            logo: 'https://i.ibb.co/MkhLZRn/logo-black-resize.png'
         }
     });
 
+    const name = req.body.name;
+    const intro = req.body.intro;
+    const instructions = req.body.instructions;
+    const text = req.body.text;
+    const link = req.body.link;
+    const outro = req.body.outro;
+
+    const mailgen = {
+        body: {
+            greeting: 'Bonjour',
+            signature: false,
+            name: name,
+            intro: intro,
+            action: {
+                instructions: instructions,
+                button: {
+                    color: '#22BC66',
+                    text: text,
+                    link: link
+                }
+            },
+            outro: outro
+        }
+    };
+
+    const emailBody = mailGenerator.generate(mailgen);
+
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.ionos.fr',
+        port: 465,
+        secure: true,
+        auth: {
+            user: 'anthony.matvienko@westcode-dev.fr',
+            pass: 'Rdwxtdb53!'
+        },
+        tls: {
+            rejectUnauthorized: false,
+        },
+    });
+
+    const email = req.body.email;
+    const subject = req.body.subject;
+
     const msg = {
-        from: '"Mylaser 👻" <mylaser@example.com>', // sender address
+        from: '"MyLaser" anthony.matvienko@westcode-dev.fr', // sender address
         to: email, // list of receivers
         subject: subject, // Subject line
-        text: text, // plain text body
-        html: html, // html body
+        // text: text, 
+        html: emailBody, // html body
     }
 
     const info = await transporter.sendMail(msg);
