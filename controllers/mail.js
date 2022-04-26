@@ -18,7 +18,7 @@ exports.sendMail = async (req, res) => {
         product: {
             name: 'MyLaser',
             link: 'https://mylaser.fr/',
-            logo: 'https://i.ibb.co/MkhLZRn/logo-black-resize.png'
+            logo: 'https://i.ibb.co/RyTgcq2/logo-black.png'
         }
     });
 
