@@ -9,6 +9,9 @@ router.put('/:id', cartCtrl.editCart);
 router.put('/removequote/:id', cartCtrl.removeQuoteFromCart);
 router.put('/addshippinginfos/:id', cartCtrl.addShippingInfos);
 router.put('/addrelayinfos/:id', cartCtrl.addRelayInfos);
+router.put('/addExpress/:id', cartCtrl.addExpress);
+router.put('/removeExpress/:id', cartCtrl.removeExpress);
+// router.put('/addDiscount/:id', cartCtrl.addDiscount);
 router.delete('/:id', cartCtrl.deleteCart);
 
 module.exports = router;

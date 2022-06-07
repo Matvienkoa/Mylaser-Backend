@@ -6,6 +6,8 @@ exports.createOrder = (req, res) => {
     models.Orders.create({
         userId: req.body.userId,
         email: req.body.email,
+        discount: req.body.discount,
+        discountAmount: req.body.discountAmount,
         number: number,
         daFN: req.body.daFN,
         daLN: req.body.daLN,
@@ -33,9 +35,20 @@ exports.addPriceToOrder = async (req, res) => {
     const order = await models.Orders.findOne({
         where: { id: req.params.id }
     })
+    const price = calculPrice();
+    function calculPrice() {
+        let price;
+        if(order.discount === 'yes') {
+            price = req.body.price*(1-(order.discountAmount/100))
+            return price
+        } else {
+            price = req.body.price
+            return price
+        }
+    }
     await order.update({
-        price: req.body.price + req.body.operatorPriceHT,
-        priceTTC: Math.ceil((req.body.price*1.2) + req.body.operatorPriceTTC),
+        price: price + req.body.operatorPriceHT,
+        priceTTC: Math.ceil((price*1.2) + req.body.operatorPriceTTC),
         shipping: req.body.operatorService,
         shippingType: req.body.shippingType,
         shippingCode: req.body.operatorCode,
@@ -46,7 +59,8 @@ exports.addPriceToOrder = async (req, res) => {
         length: req.body.length,
         width: req.body.width,
         height: req.body.height,
-        weight: req.body.weight
+        weight: req.body.weight,
+        express: req.body.express
     })
     .then(() => res.status(201).json(order))
     .catch(error => res.status(400).json({ error }));   

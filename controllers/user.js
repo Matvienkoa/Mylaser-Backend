@@ -41,6 +41,19 @@ exports.modifyUser = (req, res) => {
         });
 };
 
+// Edit User to VIP
+exports.userToVip = async (req, res) => {
+    const user = await models.User.findOne({
+        where: { id: req.params.id }
+    })
+    await user.update({
+        discount: req.body.discount,
+        discountAmount: req.body.discountAmount
+    })
+    .then(() => res.status(201).json(user))
+    .catch(error => res.status(400).json({ error }));   
+}
+
 // Delete Profile
 exports.deleteUser = (req, res) => {
     models.User.destroy({ where: { id: req.params.id } })
@@ -60,7 +73,7 @@ exports.getAllUsers = (req, res) => {
 
 // Get Profile
 exports.getOneUser = (req, res) => {
-    models.User.findOne({ where: { id: req.params.id }, include: [{model: models.BillingAdresses}, {model: models.DeliveryAdresses}, {model: models.Orders}] })
+    models.User.findOne({ where: { id: req.params.id }, include: [{model: models.BillingAdresses}, {model: models.DeliveryAdresses}, {model: models.Orders}], order: [[models.Orders, 'createdAt', 'DESC']] })
     .then(user => res.status(200).json(user))
     .catch(error => res.status(404).json({ error }));
 };

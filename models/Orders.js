@@ -5,6 +5,12 @@ const Orders = db.define('orders', {
     userId: {
         type: Sequelize.INTEGER
     },
+    discount: {
+        type: Sequelize.STRING
+    },
+    discountAmount: {
+        type: Sequelize.FLOAT
+    },
     shippingCode: {
         type: Sequelize.STRING
     },
@@ -103,7 +109,10 @@ const Orders = db.define('orders', {
     },
     email: {
         type: Sequelize.STRING
-    }
+    },
+    express: {
+        type: Sequelize.STRING
+    },
 });
 
 module.exports = Orders;

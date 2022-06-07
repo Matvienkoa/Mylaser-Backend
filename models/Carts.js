@@ -38,6 +38,9 @@ const Carts = db.define('carts', {
     shippingType: {
         type: Sequelize.STRING
     },
+    express: {
+        type: Sequelize.STRING
+    },
 });
 
 module.exports = Carts;

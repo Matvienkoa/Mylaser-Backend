@@ -52,6 +52,10 @@ exports.login = (req, res) => {
     if (req.body.email === "" || req.body.password === "") {
         return res.status(400).json({ message: "Merci de renseigner tous les Champs Obligatoires"});
     }
+    // Bad Schema Mail
+    if (!emailValidator.validate(req.body.email)) {
+        return res.status(400).json({ message: "Format d'email invalide" });
+    }
     models.User.findOne({where: { email: req.body.email } })
         .then(user => {
             if (!user) {

@@ -25,11 +25,45 @@ exports.createQuote = (req, res) => {
     function calculWeight() {
         return ((surface/100)*(thickness/10)*req.body.density)*quantity
     }
+    const priceSteel = calculPriceSteel();
+    function calculPriceSteel() {
+        let priceSteel;
+        if (steel === 'Acier Standard' && thickness <= 2) {
+            priceSteel = 180;
+            return priceSteel;
+        }
+        if (steel === 'Acier Standard' && thickness > 2 && thickness <= 8) {
+            priceSteel = 192;
+            return priceSteel;
+        }
+        if (steel === 'Acier Standard' && thickness > 8) {
+            priceSteel = 210;
+            return priceSteel;
+        }
+        if (steel === 'Acier Hardox') {
+            priceSteel = 315;
+            return priceSteel;
+        }
+        if (steel === 'Inox Standard' || steel === 'Alu Standard') {
+            priceSteel = 750;
+            return priceSteel;
+        }
+    }
     const speed = req.body.speed;
-    const pricePerKilosQuote = ((130*weight/quantity)/1000)*quantity;
+    const pricePerKilosQuote = ((priceSteel*(weight*1.15)/quantity)/1000)*quantity;
     const speedTimeQuote = ((60*length)/speed)*quantity;
     const priceSpeedTimeQuote = (6500*speedTimeQuote)/3600;
-    const timeInit = 542*quantity;
+    const timeInit = calculTimeInit();
+    function calculTimeInit() {
+        let timeInit;
+        if (quantity >= 3) {
+            timeInit = 4875;
+            return timeInit;
+        } else {
+            timeInit = quantity*1625;
+            return timeInit;
+        }
+    }
     const price = Math.ceil(pricePerKilosQuote + priceSpeedTimeQuote + timeInit);
 
     models.Quotes.create({
@@ -61,13 +95,47 @@ exports.editQuote = async (req, res) => {
     function calculWeight() {
         return ((quote.surface/100)*(thickness/10)*req.body.density)*quantity
     }
+    const priceSteel = calculPriceSteel();
+    function calculPriceSteel() {
+        let priceSteel;
+        if (steel === 'Acier Standard' && thickness <= 2) {
+            priceSteel = 180;
+            return priceSteel;
+        }
+        if (steel === 'Acier Standard' && thickness > 2 && thickness <= 8) {
+            priceSteel = 192;
+            return priceSteel;
+        }
+        if (steel === 'Acier Standard' && thickness > 8) {
+            priceSteel = 210;
+            return priceSteel;
+        }
+        if (steel === 'Acier Hardox') {
+            priceSteel = 315;
+            return priceSteel;
+        }
+        if (steel === 'Inox Standard' || steel === 'Alu Standard') {
+            priceSteel = 750;
+            return priceSteel;
+        }
+    }
     const speed = req.body.speed;
-    const pricePerKilosQuote = ((130*weight/quantity)/1000)*quantity;
+    const pricePerKilosQuote = ((priceSteel*weight/quantity)/1000)*quantity;
     const speedTimeQuote = ((60*quote.length)/speed)*quantity;
     const priceSpeedTimeQuote = (6500*speedTimeQuote)/3600;
-    const timeInit = 542*quantity;
+    const timeInit = calculTimeInit();
+    function calculTimeInit() {
+        let timeInit;
+        if (quantity >= 3) {
+            timeInit = 4875;
+            return timeInit;
+        } else {
+            timeInit = quantity*1625;
+            return timeInit;
+        }
+    }
     const price = Math.ceil(pricePerKilosQuote + priceSpeedTimeQuote + timeInit);
-    
+
     await quote.update({
         steel: steel,
         thickness: thickness,

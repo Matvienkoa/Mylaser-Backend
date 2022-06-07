@@ -111,6 +111,63 @@ exports.addRelayInfos = async (req, res) => {
     .catch(error => res.status(404).json({ error }));
 }
 
+// Edit Cart => Add Express
+exports.addExpress = async (req, res) => {
+    const cart = await models.Carts.findOne({
+        where: { id: req.params.id}
+    })
+
+    const express = req.body.express;
+
+    await cart.update({
+        express: express,
+        price: cart.price + 825
+    })
+    .then((cart) => res.status(200).json(cart))
+    .catch(error => res.status(404).json({ error }));
+}
+
+// Edit Cart => Remove Express
+exports.removeExpress = async (req, res) => {
+    const cart = await models.Carts.findOne({
+        where: { id: req.params.id}
+    })
+
+    const express = req.body.express;
+
+    await cart.update({
+        express: express,
+        price: cart.price - 825
+    })
+    .then((cart) => res.status(200).json(cart))
+    .catch(error => res.status(404).json({ error }));
+}
+
+// Edit Cart => add discount
+// exports.addDiscount = async (req, res) => {
+//     const cart = await models.Carts.findOne({
+//         where: { id: req.params.id}
+//     })
+//     const discount = req.body.discountAmount/100;
+//     const price = calculPrice();
+//     function calculPrice() {
+//         let price;
+//         if (cart.express === 'yes') {
+//             price = ((cart.price-990)*(1-discount))+990;
+//             return price;
+//         }
+//         if (cart.express === 'no') {
+//             price = cart.price*(1-discount);
+//             return price;
+//         }
+//     }
+//     await cart.update({
+//         price: price
+//     })
+//     .then((cart) => res.status(200).json(cart))
+//     .catch(error => res.status(404).json({ error }));
+// }
+
 // Delete Cart
 exports.deleteCart = (req, res) => {
     models.Carts.destroy({ where: { id: req.params.id } })

@@ -17,7 +17,13 @@ const User = db.define('users', {
     },
     lastName: {
         type: Sequelize.STRING
-    }
+    },
+    discount: {
+        type: Sequelize.STRING
+    },
+    discountAmount: {
+        type: Sequelize.FLOAT
+    },
 });
 
 module.exports = User;

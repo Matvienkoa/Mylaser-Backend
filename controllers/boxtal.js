@@ -77,7 +77,6 @@ exports.sendShipmentHome = (req, res) => {
     const operator = req.body.operator;
     const service = req.body.service;
     const date = moment().add(1, 'days').format('YYYY-MM-DD');
-    console.log(req.body);
     
     superagent.post('https://test.envoimoinscher.com/api/v1/order')
     .query({ 
@@ -139,7 +138,6 @@ exports.sendShipmentPickUpPoint = (req, res) => {
     const service = req.body.service;
     const relayCode = req.body.relayCode;
     const date = moment().add(1, 'days').format('YYYY-MM-DD');
-    console.log(req.body);
     
     superagent.post('https://test.envoimoinscher.com/api/v1/order')
     .query({ 

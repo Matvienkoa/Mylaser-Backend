@@ -18,7 +18,8 @@ exports.sendMail = async (req, res) => {
         product: {
             name: 'MyLaser',
             link: 'https://mylaser.fr/',
-            logo: 'https://i.ibb.co/RyTgcq2/logo-black.png'
+            logo: 'https://i.ibb.co/RyTgcq2/logo-black.png',
+            logoHeight: '50px'
         }
     });
 
@@ -48,6 +49,7 @@ exports.sendMail = async (req, res) => {
     };
 
     const emailBody = mailGenerator.generate(mailgen);
+    // const emailBody1 = mailGenerator.generatePlaintext(mailgen);
 
     const transporter = nodemailer.createTransport({
         host: 'smtp.ionos.fr',
@@ -69,7 +71,7 @@ exports.sendMail = async (req, res) => {
         from: '"MyLaser" anthony.matvienko@westcode-dev.fr', // sender address
         to: email, // list of receivers
         subject: subject, // Subject line
-        // text: text, 
+        // text: emailBody1, 
         html: emailBody, // html body
     }
 

@@ -6,6 +6,7 @@ const userCtrl = require('../controllers/user');
 router.get('/', checkJWT, checkUser, checkAdmin, userCtrl.getAllUsers);
 router.get('/:id',  userCtrl.getOneUser);
 router.put('/:id', checkJWT, checkUser, userCtrl.modifyUser);
+router.put('/vip/:id', userCtrl.userToVip);
 router.delete('/:id', checkJWT, checkUser, userCtrl.deleteUser);
 
 module.exports = router;
