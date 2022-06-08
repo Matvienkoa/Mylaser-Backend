@@ -8,6 +8,7 @@ exports.checkJWT = (req, res, next) => {
 		jwt.verify(token, 'RANDOM_TOKEN_SECRET', (err, decodedToken) => {
 			if (err) {
 				console.log(err);
+        // res.status(400).send({ message: "token expiré" });
 			} else {
 				console.log(decodedToken.userId);
 				next();
