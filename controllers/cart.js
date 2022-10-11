@@ -83,6 +83,11 @@ exports.addShippingInfos = async (req, res) => {
     const shippingType = req.body.shippingType;
     const operatorPriceHT = Math.ceil(parseFloat(req.body.operatorPriceHT)*100);
     const operatorPriceTTC = Math.ceil(parseFloat(req.body.operatorPriceTTC)*100);
+    const relayCode = null;
+
+    // if (operatorPriceHT === 0 || operatorPriceTTC === 0) {
+    //     return res.status(500).json({ message: "Une erreur est survenue, le montant ne peut pas être égal à 0"});
+    // }
 
     await cart.update({
         operatorCode: operatorCode,
@@ -90,7 +95,8 @@ exports.addShippingInfos = async (req, res) => {
         operatorPriceHT: operatorPriceHT,
         operatorPriceTTC: operatorPriceTTC,
         operatorLabel: operatorLabel,
-        shippingType: shippingType
+        shippingType: shippingType,
+        relayCode: relayCode
     })
     .then((cart) => res.status(200).json(cart))
     .catch(error => res.status(404).json({ error }));
@@ -121,7 +127,7 @@ exports.addExpress = async (req, res) => {
 
     await cart.update({
         express: express,
-        price: cart.price + 825
+        price: cart.price + 1658
     })
     .then((cart) => res.status(200).json(cart))
     .catch(error => res.status(404).json({ error }));
@@ -137,7 +143,7 @@ exports.removeExpress = async (req, res) => {
 
     await cart.update({
         express: express,
-        price: cart.price - 825
+        price: cart.price - 1658
     })
     .then((cart) => res.status(200).json(cart))
     .catch(error => res.status(404).json({ error }));

@@ -31,8 +31,19 @@ exports.getShipments = (req, res) => {
     const hauteur = req.body.quotes.hauteur;
     const valeur = req.body.valeur;
     const destCP = req.body.user.adress.postalCode;
-    const date = moment().add(1, 'days').format('YYYY-MM-DD');
-    
+    const express = req.body.quotes.express;
+    const date = calculDate();
+    function calculDate() {
+        let collecte;
+        if (express === 'yes') {
+            collecte = moment().add(3, 'days').format('YYYY-MM-DD');
+            return collecte;
+        }
+        if (express === 'no') {
+            collecte = moment().add(1, 'days').format('YYYY-MM-DD');
+            return collecte;
+        }
+    }
     superagent.get('https://test.envoimoinscher.com/api/v1/cotation')
     .query({ 
         'colis_1.poids': poids,

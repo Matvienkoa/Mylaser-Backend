@@ -8,7 +8,7 @@ exports.sendMailButton = async (req, res) => {
         theme: 'default',
         product: {
             name: 'MyLaser',
-            link: 'https://mylaser.fr/',
+            link: 'https://dt-mylaser.com/',
             logo: 'https://i.ibb.co/RyTgcq2/logo-black.png',
             logoHeight: '50px'
         }
@@ -43,12 +43,12 @@ exports.sendMailButton = async (req, res) => {
     // const emailBody1 = mailGenerator.generatePlaintext(mailgen);
 
     const transporter = nodemailer.createTransport({
-        host: 'smtp.ionos.fr',
+        host: 'mail.dt-mylaser.com',
         port: 465,
         secure: true,
         auth: {
-            user: 'anthony.matvienko@westcode-dev.fr',
-            pass: 'Rdwxtdb53!'
+            user: 'contact@dt-mylaser.com',
+            pass: 'Dtsystemes44980!'
         },
         tls: {
             rejectUnauthorized: false,
@@ -59,7 +59,7 @@ exports.sendMailButton = async (req, res) => {
     const subject = req.body.subject;
 
     const msg = {
-        from: '"MyLaser" anthony.matvienko@westcode-dev.fr', // sender address
+        from: '"MyLaser" contact@dt-mylaser.com', // sender address
         to: email, // list of receivers
         subject: subject, // Subject line
         // text: emailBody1, 
@@ -93,23 +93,32 @@ exports.sendMailInfos = async (req, res) => {
         theme: 'default',
         product: {
             name: 'MyLaser',
-            link: 'https://mylaser.fr/',
+            link: 'https://dt-mylaser.com/',
             logo: 'https://i.ibb.co/RyTgcq2/logo-black.png',
             logoHeight: '50px'
         }
     });
 
+    const name = req.body.name;
     const intro = req.body.intro;
-    const outro = req.body.outro;
     const instructions = req.body.instructions;
+    const text = req.body.text;
+    const link = req.body.link;
+    const outro = req.body.outro;
 
     const mailgen = {
         body: {
             greeting: 'Bonjour',
             signature: false,
+            name: name,
             intro: intro,
             action: {
                 instructions: instructions,
+                button: {
+                    color: '#22BC66',
+                    text: text,
+                    link: link
+                }
             },
             outro: outro
         }
@@ -119,12 +128,12 @@ exports.sendMailInfos = async (req, res) => {
     // const emailBody1 = mailGenerator.generatePlaintext(mailgen);
 
     const transporter = nodemailer.createTransport({
-        host: 'smtp.ionos.fr',
+        host: 'mail.dt-mylaser.com',
         port: 465,
         secure: true,
         auth: {
-            user: 'anthony.matvienko@westcode-dev.fr',
-            pass: 'Rdwxtdb53!'
+            user: 'contact@dt-mylaser.com',
+            pass: 'Dtsystemes44980!'
         },
         tls: {
             rejectUnauthorized: false,
@@ -135,7 +144,7 @@ exports.sendMailInfos = async (req, res) => {
     const subject = req.body.subject;
 
     const msg = {
-        from: '"MyLaser" anthony.matvienko@westcode-dev.fr', // sender address
+        from: '"MyLaser" contact@dt-mylaser.com', // sender address
         to: email, // list of receivers
         subject: subject, // Subject line
         // text: emailBody1, 

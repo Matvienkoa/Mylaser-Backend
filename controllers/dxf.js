@@ -16,6 +16,11 @@ exports.createQuote = (req, res) => {
     const height = req.body.height;
     const surface = req.body.surface;
     const length = req.body.length;
+
+    if (width === 0 || width === null || height === 0 || height === null || surface === 0 || surface === null || length === 0 || length === null) {
+        return res.status(400).json({ message: "Erreur" });
+    }
+
     const dxf = req.body.dxf;
     const svg = req.body.svg;
     const steel = req.body.steel;
@@ -28,23 +33,35 @@ exports.createQuote = (req, res) => {
     const priceSteel = calculPriceSteel();
     function calculPriceSteel() {
         let priceSteel;
-        if (steel === 'Acier Standard' && thickness <= 2) {
-            priceSteel = 180;
+        if (steel === 'Acier Standard' && thickness <= 1.5) {
+            priceSteel = 135;
             return priceSteel;
         }
-        if (steel === 'Acier Standard' && thickness > 2 && thickness <= 8) {
-            priceSteel = 192;
+        if (steel === 'Acier Standard' && thickness > 1.5 && thickness <= 6) {
+            priceSteel = 115;
             return priceSteel;
         }
-        if (steel === 'Acier Standard' && thickness > 8) {
-            priceSteel = 210;
+        if (steel === 'Acier Standard' && thickness > 6 && thickness <= 12) {
+            priceSteel = 117;
+            return priceSteel;
+        }
+        if (steel === 'Acier Standard' && thickness > 12) {
+            priceSteel = 127;
             return priceSteel;
         }
         if (steel === 'Acier Hardox') {
-            priceSteel = 315;
+            priceSteel = 300;
             return priceSteel;
         }
-        if (steel === 'Inox Standard' || steel === 'Alu Standard') {
+        if (steel === 'Inox Standard') {
+            priceSteel = 620;
+            return priceSteel;
+        }
+        if (steel === 'Alu Standard' && thickness <= 12) {
+            priceSteel = 700;
+            return priceSteel;
+        }
+        if (steel === 'Alu Standard' && thickness > 12) {
             priceSteel = 750;
             return priceSteel;
         }
@@ -56,11 +73,16 @@ exports.createQuote = (req, res) => {
     const timeInit = calculTimeInit();
     function calculTimeInit() {
         let timeInit;
-        if (quantity >= 3) {
-            timeInit = 4875;
+        if (quantity == 1) {
+            timeInit = 1625;
             return timeInit;
-        } else {
-            timeInit = quantity*1625;
+        }
+        if (quantity == 2) {
+            timeInit = 1000+1625;
+            return timeInit;
+        }
+        if (quantity >= 3) {
+            timeInit = 500+1000+1625;
             return timeInit;
         }
     }
@@ -98,23 +120,35 @@ exports.editQuote = async (req, res) => {
     const priceSteel = calculPriceSteel();
     function calculPriceSteel() {
         let priceSteel;
-        if (steel === 'Acier Standard' && thickness <= 2) {
-            priceSteel = 180;
+        if (steel === 'Acier Standard' && thickness <= 1.5) {
+            priceSteel = 135;
             return priceSteel;
         }
-        if (steel === 'Acier Standard' && thickness > 2 && thickness <= 8) {
-            priceSteel = 192;
+        if (steel === 'Acier Standard' && thickness > 1.5 && thickness <= 6) {
+            priceSteel = 115;
             return priceSteel;
         }
-        if (steel === 'Acier Standard' && thickness > 8) {
-            priceSteel = 210;
+        if (steel === 'Acier Standard' && thickness > 6 && thickness <= 12) {
+            priceSteel = 117;
+            return priceSteel;
+        }
+        if (steel === 'Acier Standard' && thickness > 12) {
+            priceSteel = 127;
             return priceSteel;
         }
         if (steel === 'Acier Hardox') {
-            priceSteel = 315;
+            priceSteel = 300;
             return priceSteel;
         }
-        if (steel === 'Inox Standard' || steel === 'Alu Standard') {
+        if (steel === 'Inox Standard') {
+            priceSteel = 620;
+            return priceSteel;
+        }
+        if (steel === 'Alu Standard' && thickness <= 12) {
+            priceSteel = 700;
+            return priceSteel;
+        }
+        if (steel === 'Alu Standard' && thickness > 12) {
             priceSteel = 750;
             return priceSteel;
         }
@@ -126,11 +160,16 @@ exports.editQuote = async (req, res) => {
     const timeInit = calculTimeInit();
     function calculTimeInit() {
         let timeInit;
-        if (quantity >= 3) {
-            timeInit = 4875;
+        if (quantity == 1) {
+            timeInit = 1625;
             return timeInit;
-        } else {
-            timeInit = quantity*1625;
+        }
+        if (quantity == 2) {
+            timeInit = 1000+1625;
+            return timeInit;
+        }
+        if (quantity >= 3) {
+            timeInit = 500+1000+1625;
             return timeInit;
         }
     }
