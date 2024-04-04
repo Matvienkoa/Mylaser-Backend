@@ -43,12 +43,12 @@ exports.sendMailButton = async (req, res) => {
     // const emailBody1 = mailGenerator.generatePlaintext(mailgen);
 
     const transporter = nodemailer.createTransport({
-        host: 'mail.dt-mylaser.com',
-        port: 465,
-        secure: true,
+        host: '',
+        port: ,
+        secure: ,
         auth: {
-            user: 'contact@dt-mylaser.com',
-            pass: 'Dtsystemes44980!'
+            user: '',
+            pass: ''
         },
         tls: {
             rejectUnauthorized: false,
@@ -128,12 +128,12 @@ exports.sendMailInfos = async (req, res) => {
     // const emailBody1 = mailGenerator.generatePlaintext(mailgen);
 
     const transporter = nodemailer.createTransport({
-        host: 'mail.dt-mylaser.com',
-        port: 465,
-        secure: true,
+        host: '',
+        port: ,
+        secure: ,
         auth: {
-            user: 'contact@dt-mylaser.com',
-            pass: 'Dtsystemes44980!'
+            user: '',
+            pass: ''
         },
         tls: {
             rejectUnauthorized: false,
