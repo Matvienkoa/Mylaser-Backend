@@ -22,3 +22,5 @@ Stripe
 Vector Express
 
 Boxtal
+
+Nodemailer
