@@ -36,5 +36,6 @@ app.use('/api/mylaser/orderdetails', require('./routes/orderdetails'));
 app.use('/api/mylaser/mail', require('./routes/mails'));
 app.use('/api/mylaser/payment', require('./routes/payments'));
 app.use('/api/mylaser/boxtal', require('./routes/boxtal'));
+app.use('/api/mylaser/simulator', require('./routes/simulator'));
 
 module.exports = app;

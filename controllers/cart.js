@@ -185,7 +185,8 @@ exports.deleteCart = (req, res) => {
 exports.getOneCart = (req, res) => {
     models.Carts.findOne({
         where: { id: req.params.id },
-        include: {model: models.Quotes}
+        include: {model: models.Quotes},
+        order: [[{ model: models.Quotes}, 'id', 'DESC']]
     })
     .then(cart => res.status(200).json(cart))
     .catch(error => res.status(404).json({ error }));
