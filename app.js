@@ -16,8 +16,7 @@ db.authenticate()
 const app = express();
 
 app.use(cors({
-    // origin: "https://dt-mylaser.com"
-    origin: "http://localhost:5501"
+    origin: process.env.CLIENT_URL
 }));
 app.use(express.json());
 app.use(helmet());

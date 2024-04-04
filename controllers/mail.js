@@ -1,14 +1,15 @@
 const nodemailer = require("nodemailer");
 const emailValidator = require('email-validator');
 var Mailgen = require('mailgen');
+require("dotenv").config()
 
 exports.sendMailButton = async (req, res) => {
-    // Mailgen
+
     const mailGenerator = new Mailgen({
         theme: 'default',
         product: {
             name: 'MyLaser',
-            link: 'https://dt-mylaser.com/',
+            link: process.env.MAIL_LINK,
             logo: 'https://i.ibb.co/RyTgcq2/logo-black.png',
             logoHeight: '50px'
         }
@@ -40,15 +41,14 @@ exports.sendMailButton = async (req, res) => {
     };
 
     const emailBody = mailGenerator.generate(mailgen);
-    // const emailBody1 = mailGenerator.generatePlaintext(mailgen);
 
     const transporter = nodemailer.createTransport({
-        host: 'mail.dt-mylaser.com',
-        port: 465,
+        host: process.env.MAIL_HOST,
+        port: process.env.MAIL_PORT,
         secure: true,
         auth: {
-            user: 'contact@dt-mylaser.com',
-            pass: 'Dtsystemes44980!'
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASS
         },
         tls: {
             rejectUnauthorized: false,
@@ -69,7 +69,6 @@ exports.sendMailButton = async (req, res) => {
     const info = await transporter.sendMail(msg);
 
     console.log("Message sent: %s", info.messageId);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
     // Preview only available when sending through an Ethereal account
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
@@ -93,7 +92,7 @@ exports.sendMailInfos = async (req, res) => {
         theme: 'default',
         product: {
             name: 'MyLaser',
-            link: 'https://dt-mylaser.com/',
+            link: process.env.MAIL_LINK,
             logo: 'https://i.ibb.co/RyTgcq2/logo-black.png',
             logoHeight: '50px'
         }
@@ -128,12 +127,12 @@ exports.sendMailInfos = async (req, res) => {
     // const emailBody1 = mailGenerator.generatePlaintext(mailgen);
 
     const transporter = nodemailer.createTransport({
-        host: 'mail.dt-mylaser.com',
-        port: 465,
+        host: process.env.MAIL_HOST,
+        port: process.env.MAIL_PORT,
         secure: true,
         auth: {
-            user: 'contact@dt-mylaser.com',
-            pass: 'Dtsystemes44980!'
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASS
         },
         tls: {
             rejectUnauthorized: false,
