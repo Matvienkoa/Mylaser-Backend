@@ -43,12 +43,21 @@ exports.sendMailButton = async (req, res) => {
     const emailBody = mailGenerator.generate(mailgen);
 
     const transporter = nodemailer.createTransport({
+<<<<<<< HEAD
         host: process.env.MAIL_HOST,
         port: process.env.MAIL_PORT,
         secure: true,
         auth: {
             user: process.env.MAIL_USER,
             pass: process.env.MAIL_PASS
+=======
+        host: '',
+        port: ,
+        secure: ,
+        auth: {
+            user: '',
+            pass: ''
+>>>>>>> 4a4db2a11def80a0af933dedf1991f94a2d6bb5d
         },
         tls: {
             rejectUnauthorized: false,
@@ -127,12 +136,21 @@ exports.sendMailInfos = async (req, res) => {
     // const emailBody1 = mailGenerator.generatePlaintext(mailgen);
 
     const transporter = nodemailer.createTransport({
+<<<<<<< HEAD
         host: process.env.MAIL_HOST,
         port: process.env.MAIL_PORT,
         secure: true,
         auth: {
             user: process.env.MAIL_USER,
             pass: process.env.MAIL_PASS
+=======
+        host: '',
+        port: ,
+        secure: ,
+        auth: {
+            user: '',
+            pass: ''
+>>>>>>> 4a4db2a11def80a0af933dedf1991f94a2d6bb5d
         },
         tls: {
             rejectUnauthorized: false,
